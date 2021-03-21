@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Register.css";
 import React, { createContext } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 export const StoreContext = createContext();
 class Register extends Component {
   constructor(props) {
@@ -104,9 +105,10 @@ class Register extends Component {
   };
 
   handleSubmit = event => {
-    alert(
-      `${this.state.firstName} ${this.state.telephone} ${this.state.topic}`
-    );
+    <Link to="/profile" />;
+    // alert(
+    //   `${this.state.firstName} ${this.state.telephone} ${this.state.topic}`
+    // );
     event.preventDefault();
   };
 
