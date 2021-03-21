@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Register.css";
 import React, { createContext } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 export const StoreContext = createContext();
 class Register extends Component {
   constructor(props) {
@@ -21,7 +21,8 @@ class Register extends Component {
       homeAddress: "",
       companyAddress: "",
       interest: "",
-      interestBox: []
+      interestBox: [],
+      routName: false
     };
   }
 
@@ -105,11 +106,13 @@ class Register extends Component {
   };
 
   handleSubmit = event => {
-    <Link to="/profile" />;
+    event.preventDefault();
+    this.setState({
+      routName: true
+    });
     // alert(
     //   `${this.state.firstName} ${this.state.telephone} ${this.state.topic}`
     // );
-    event.preventDefault();
   };
 
   onFileChange = event => {
@@ -142,127 +145,131 @@ class Register extends Component {
       homeAddress,
       companyAddress,
       interest,
-      interestBox
+      interestBox,
+      routName
     } = this.state;
-    return (
-      <StoreContext.Provider value={this.state}>
-        <div className="row">
-          <div className="column">
-            <img id="blah" src={selectedFile} alt="your image" />
-            <div>
-              <input type="file" onChange={this.onFileChange} />
+    if (routName) {
+      return <Redirect to={"/profile"} />;
+    } else
+      return (
+        <StoreContext.Provider value={this.state}>
+          <div className="row">
+            <div className="column">
+              <img id="blah" src={selectedFile} alt="your image" />
+              <div>
+                <input type="file" onChange={this.onFileChange} />
+              </div>
+            </div>
+            <div className="column">
+              <form onSubmit={this.handleSubmit}>
+                <div>
+                  <label>Name </label>
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    value={firstName}
+                    onChange={this.handlefirstNameChange}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={lastName}
+                    onChange={this.handlelastNameChange}
+                  />
+                </div>
+                <div>
+                  <label>Age </label>
+                  <input
+                    type="range"
+                    id="vol"
+                    name="vol"
+                    step="100"
+                    min="0"
+                    max="500"
+                  />
+                </div>
+                <div>
+                  <label>Email</label>
+                  <input
+                    type="text"
+                    placeholder="Email"
+                    value={email}
+                    onChange={this.handleemailChange}
+                  />
+                </div>
+                <div>
+                  <label>Tel</label>
+                  <input
+                    type="text"
+                    placeholder="Telephone"
+                    value={telephone}
+                    onChange={this.handletelephoneChange}
+                  />
+                </div>
+                <div>
+                  <label>State</label>
+                  <select value={state} onChange={this.handleStateChange}>
+                    <option value="kerala"> Kerala </option>
+                    <option value="tamilnadu">Tamilnadu</option>
+                    <option value="bihar">Bihar</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Country</label>
+                  <select value={country} onChange={this.handleCountryChange}>
+                    <option value="india">INDIA</option>
+                    <option value="uae">UAE</option>
+                    <option value="usa">USA</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Address</label>
+                  <select value={address} onChange={this.handleAddressChange}>
+                    <option value="" disabled selected>
+                      Please Select..
+                    </option>
+                    <option value="home">Home</option>
+                    <option value="company">Company</option>
+                  </select>
+                  <select
+                    value={homeAddress}
+                    onChange={this.handleHomeAddressChange}
+                    hidden={homeAddressFlag}
+                  >
+                    <option value="homeaddress1">Home Address 1</option>
+                    <option value="homeaddress2">Home Address 2</option>
+                  </select>
+
+                  <select
+                    value={companyAddress}
+                    onChange={this.handleCompanyAddressChange}
+                    hidden={companyAddressFlag}
+                  >
+                    <option value="companyaddress1">Company Address 1</option>
+                    <option value="companyaddress2">Company Address 2</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label>Interest </label>
+                  <input
+                    type="text"
+                    placeholder="Interest"
+                    value={interest}
+                    onChange={this.handleInterest}
+                  />
+                  <div>
+                    {interestBox.map(name => (
+                      <button className="keywords">{name}</button>
+                    ))}{" "}
+                  </div>
+                </div>
+                <button type="submit">Submit</button>
+              </form>
             </div>
           </div>
-          <div className="column">
-            <form onSubmit={this.handleSubmit}>
-              <div>
-                <label>Name </label>
-                <input
-                  type="text"
-                  placeholder="First Name"
-                  value={firstName}
-                  onChange={this.handlefirstNameChange}
-                />
-                <input
-                  type="text"
-                  placeholder="Last Name"
-                  value={lastName}
-                  onChange={this.handlelastNameChange}
-                />
-              </div>
-              <div>
-                <label>Age </label>
-                <input
-                  type="range"
-                  id="vol"
-                  name="vol"
-                  step="100"
-                  min="0"
-                  max="500"
-                />
-              </div>
-              <div>
-                <label>Email</label>
-                <input
-                  type="text"
-                  placeholder="Email"
-                  value={email}
-                  onChange={this.handleemailChange}
-                />
-              </div>
-              <div>
-                <label>Tel</label>
-                <input
-                  type="text"
-                  placeholder="Telephone"
-                  value={telephone}
-                  onChange={this.handletelephoneChange}
-                />
-              </div>
-              <div>
-                <label>State</label>
-                <select value={state} onChange={this.handleStateChange}>
-                  <option value="kerala"> Kerala </option>
-                  <option value="tamilnadu">Tamilnadu</option>
-                  <option value="bihar">Bihar</option>
-                </select>
-              </div>
-              <div>
-                <label>Country</label>
-                <select value={country} onChange={this.handleCountryChange}>
-                  <option value="india">INDIA</option>
-                  <option value="uae">UAE</option>
-                  <option value="usa">USA</option>
-                </select>
-              </div>
-              <div>
-                <label>Address</label>
-                <select value={address} onChange={this.handleAddressChange}>
-                  <option value="" disabled selected>
-                    Please Select..
-                  </option>
-                  <option value="home">Home</option>
-                  <option value="company">Company</option>
-                </select>
-                <select
-                  value={homeAddress}
-                  onChange={this.handleHomeAddressChange}
-                  hidden={homeAddressFlag}
-                >
-                  <option value="homeaddress1">Home Address 1</option>
-                  <option value="homeaddress2">Home Address 2</option>
-                </select>
-
-                <select
-                  value={companyAddress}
-                  onChange={this.handleCompanyAddressChange}
-                  hidden={companyAddressFlag}
-                >
-                  <option value="companyaddress1">Company Address 1</option>
-                  <option value="companyaddress2">Company Address 2</option>
-                </select>
-              </div>
-
-              <div>
-                <label>Interest </label>
-                <input
-                  type="text"
-                  placeholder="Interest"
-                  value={interest}
-                  onChange={this.handleInterest}
-                />
-                <div>
-                  {interestBox.map(name => (
-                    <button className="keywords">{name}</button>
-                  ))}{" "}
-                </div>
-              </div>
-              <button type="submit">Submit</button>
-            </form>
-          </div>
-        </div>
-      </StoreContext.Provider>
-    );
+        </StoreContext.Provider>
+      );
   }
 }
 
