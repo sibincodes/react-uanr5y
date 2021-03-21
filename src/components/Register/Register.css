@@ -1,0 +1,26 @@
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 15px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+img {
+  max-width: 180px;
+  max-height: 130px;
+}
+
+.keywords {
+  border: none;
+  color: white;
+  background-color: #0285b1;
+  margin-right: 10px;
+  height: 30px;
+  width: 130px;
+  margin-top: 10px;
+}
